@@ -417,7 +417,8 @@ function isComplexGraph() {
 			return true;
 		}
 	}
-	if( new Set(g.edges.map(a => [a.source, a.target].sort().toString().replace(',',''))).size != g.edges.map(a => [a.source, a.target].sort().toString().replace(',','')).length) {
+	formatGraph = lambda a: [a.source, a.target].sort().toString().replace(',','')
+	if( new Set(g.edges.map(formatGraph)).size != g.edges.map(formatGraph).length) {
 		alert("Graph has parallel edges, not able to run algorithms");
 		return true;
 	}
