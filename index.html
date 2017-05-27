@@ -175,12 +175,13 @@
 						</label>
 					</div>
 					<div class="btn-group-vertical">
-						<div class="btn-group btn-group-justified">
-						  <a onclick="javascript:zoomIn()" class="btn btn-success"><i class="fa fa-search-plus" aria-hidden="true"></i> Zoom in</a>
-						  <a onclick="javascript:zoomOut()"class="btn btn-danger"><i class="fa fa-search-minus" aria-hidden="true"></i> Zoom out</a>
+						<div class="btn-group-justified">
+						  <a onclick="javascript:zoomIn()" class="btn btn-success"><i class="fa fa-search-plus" aria-hidden="true"></i> In</a>
+						  <a onclick="javascript:zoomOut()"class="btn btn-danger"><i class="fa fa-search-minus" aria-hidden="true"></i> Out</a>
 						</div>
 						<a onclick="javascript:regenColors()" class="btn btn-info">Regenerate Colors</a>
 						<a onclick="javascript:randomizeWeights()" class="btn btn-warning">Random Weights</a>
+						<a onclick="javascript:downloadGraph()" class="btn btn-primary">Download</a>
 						<br>
 					</div>
 				</div>
@@ -203,13 +204,13 @@
 		</div>
 		<div class="hidden-md hidden-sm hidden-xs">
 			<div class="col-lg-2 hidden-md hidden-sm hidden-xs" style="margin-top:-35px">
-				<h4>Basic Info:</h4>
+				<h5>Basic Info:</h5>
 				<div class="well">
 					<p><b>Vertex Count:</b> <span id="vertex_count">57</span></p>
 					<p><b>Edge Count:</b> <span id="edge_count">57</span></p>
 				</div>
 				<hr>
-				<h4>Graph Options:</h4>
+				<h5>Graph Options:</h5>
 				<div class="checkbox">
 					<label>
 						<input id="node_labels" onclick="javascript:showNodesLabels()" type="checkbox" checked=""> Show Node Labels
@@ -231,12 +232,13 @@
 					</label>
 				</div>
 				<div class="btn-group-vertical">
-					<div class="btn-group btn-group-justified">
-					  <a onclick="javascript:zoomIn()" class="btn btn-success"><i class="fa fa-search-plus" aria-hidden="true"></i> Zoom in</a>
-					  <a onclick="javascript:zoomOut()" class="btn btn-danger"><i class="fa fa-search-minus" aria-hidden="true"></i> Zoom out</a>
+					<div class="btn-group-justified">
+					  <a onclick="javascript:zoomIn()" class="btn btn-success"><i class="fa fa-search-plus" aria-hidden="true"></i> In</a>
+					  <a onclick="javascript:zoomOut()" class="btn btn-danger"><i class="fa fa-search-minus" aria-hidden="true"></i> Out</a>
 					</div>
 					<a onclick="javascript:regenColors()" class="btn btn-info">Regenerate Colors</a>
 					<a onclick="javascript:randomizeWeights()" class="btn btn-warning">Random Weights</a>
+					<a onclick="javascript:downloadGraph()" class="btn btn-primary">Download</a>
 					<br>
 				</div>
 			</div>
@@ -352,6 +354,7 @@
 <script src="sources/sigma.renderers.webgl.js"></script>
 <script src="sources/sigma.renderers.svg.js"></script>
 <script src="sources/sigma.renderers.def.js"></script>
+<script src="sources/sigma.renderers.snapshot.js"></script>
 <script src="sources/sigma.webgl.nodes.def.js"></script>
 <script src="sources/sigma.webgl.nodes.fast.js"></script>
 <script src="sources/sigma.webgl.edges.def.js"></script>
@@ -417,7 +420,8 @@ function isComplexGraph() {
 			return true;
 		}
 	}
-	if( new Set(g.edges.map(a => [a.source, a.target].sort().toString().replace(',',''))).size != g.edges.map(a => [a.source, a.target].sort().toString().replace(',','')).length) {
+	graphstr = g.edges.map(a => [a.source, a.target].sort().toString().replace(',',''))
+	if( new Set(graphstr).size != graphstr.length) {
 		alert("Graph has parallel edges, not able to run algorithms");
 		return true;
 	}
@@ -540,6 +544,10 @@ function randomizeWeights() {
 	s.graph.clear();
 	s.graph.read(g);
 	s.refresh();
+}
+
+function downloadGraph() {
+	s.renderers[0].snapshot({format: 'png', labels: true, download: true, filename: 'graph.png' });
 }
 
 function graphStatistics() {
