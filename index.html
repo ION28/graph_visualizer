@@ -206,8 +206,8 @@
 			<div class="col-lg-2 hidden-md hidden-sm hidden-xs" style="margin-top:-35px">
 				<h5>Basic Info:</h5>
 				<div class="well">
-					<p><b>Vertex Count:</b> <span id="vertex_count">57</span></p>
-					<p><b>Edge Count:</b> <span id="edge_count">57</span></p>
+					<p style="margin:0 0 0em"><b>Vertex Count:</b> <span id="vertex_count">57</span></p>
+					<p style="margin:0 0 0em"><b>Edge Count:</b> <span id="edge_count">57</span></p>
 				</div>
 				<hr>
 				<h5>Graph Options:</h5>
@@ -239,6 +239,7 @@
 					<a onclick="javascript:regenColors()" class="btn btn-info">Regenerate Colors</a>
 					<a onclick="javascript:randomizeWeights()" class="btn btn-warning">Random Weights</a>
 					<a onclick="javascript:downloadGraph()" class="btn btn-primary">Download</a>
+					<a href="#" class="btn btn-default" data-toggle="modal" data-target="#importexport_modal">Import/Export</a>
 					<br>
 				</div>
 			</div>
@@ -329,6 +330,25 @@
       </div>
       <div class="modal-body">
 		<p>Section currently in progress. Check back later!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="importexport_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Import / Export Graph Data</h4>
+      </div>
+      <div class="modal-body">
+		<h5>Import Data</h5>
+		<textarea class="form-control" rows="3" id="import_data"></textarea>
+		<h5>Export Data</h5>
+		<textarea class="form-control" rows="3" id="export_data"></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
