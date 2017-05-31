@@ -182,6 +182,7 @@
 						<a onclick="javascript:regenColors()" class="btn btn-info">Regenerate Colors</a>
 						<a onclick="javascript:randomizeWeights()" class="btn btn-warning">Random Weights</a>
 						<a onclick="javascript:downloadGraph()" class="btn btn-primary">Download</a>
+						<a href="#" class="btn btn-default importexport_button" data-toggle="modal" data-target="#importexport_modal">Import/Export</a>
 						<br>
 					</div>
 				</div>
@@ -239,7 +240,7 @@
 					<a onclick="javascript:regenColors()" class="btn btn-info">Regenerate Colors</a>
 					<a onclick="javascript:randomizeWeights()" class="btn btn-warning">Random Weights</a>
 					<a onclick="javascript:downloadGraph()" class="btn btn-primary">Download</a>
-					<a href="#" class="btn btn-default" data-toggle="modal" data-target="#importexport_modal">Import/Export</a>
+					<a href="#" class="btn btn-default importexport_button" data-toggle="modal" data-target="#importexport_modal">Import/Export</a>
 					<br>
 				</div>
 			</div>
@@ -347,6 +348,8 @@
       <div class="modal-body">
 		<h5>Import Data</h5>
 		<textarea class="form-control" rows="3" id="import_data"></textarea>
+		<br>
+		<a onclick="javascript:importGraph()" class="btn btn-success">Import Graph</a>
 		<h5>Export Data</h5>
 		<textarea class="form-control" rows="3" id="export_data"></textarea>
       </div>
@@ -568,6 +571,23 @@ function randomizeWeights() {
 
 function downloadGraph() {
 	s.renderers[0].snapshot({format: 'png', labels: true, download: true, filename: 'graph.png' });
+}
+
+function importGraph() {
+	$('#aGraph').click();
+	try {	
+		graphStatistics();
+	
+		$('#importexport_modal').modal('toggle');
+		
+		g = JSON.parse($('#import_data')[0].value);
+		
+		s.graph.clear();
+		s.graph.read(g);
+		s.refresh();
+	} catch (err) {
+		alert("Unable to import graph");
+	}
 }
 
 function graphStatistics() {
@@ -892,12 +912,14 @@ function drawQ() {
 	s.refresh();
 }
 
-function drawA() {
+function drawA(is_import) {
 	
 	var coords = [];
 
 	var i;
-	g = { nodes: [], edges: [] };
+	if(!is_import) {
+		g = { nodes: [], edges: [] };
+	}
 
 	s.graph.clear();
 	s.graph.read(g);
@@ -1403,6 +1425,10 @@ $( "#algo_hide_info" ).click(function() {
 	$('#graph_panel')[0].style.height = "460px";
 	$('#algo_path')[0].textContent = "";
 	$('#algo_weight')[0].textContent = "";
+});
+$('.importexport_button').click(function() {
+	$('#export_data')[0].value = JSON.stringify(g);
+	$('#import_data')[0].value = "";
 });
 </script>
 <script>
